@@ -2,7 +2,6 @@ package com.project.urlshortner.service;
 
 import com.project.urlshortner.models.User;
 import com.project.urlshortner.repositories.UserRepository;
-import io.jsonwebtoken.security.Password;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
