@@ -20,7 +20,7 @@ public class JwtUtils {
     @Value("${jwt.secret}")
     private String jwtSecret;
     @Value("${jwt.expiration}")
-    private String jwtExpirationMs;
+    private Long jwtExpirationMs;
 
     public String getJwtFromHeader(HttpServletRequest request) {
 //       Authorization -> Bearer <TOKEN>
@@ -37,11 +37,12 @@ public class JwtUtils {
         String roles = userDetails.getAuthorities().stream()
                 .map(authority -> authority.getAuthority())
                 .collect(Collectors.joining(","));
+
         return Jwts.builder()
                 .subject(username)
                 .claim("roles", roles)
                 .issuedAt(new Date())
-                .expiration(new Date((new Date().getTime() + jwtExpirationMs)))
+                .expiration(new Date(new Date().getTime() + jwtExpirationMs))
                 .signWith(key())
                 .compact();
     }

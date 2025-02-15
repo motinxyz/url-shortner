@@ -23,6 +23,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+        return path.startsWith("/api/auth/public/login"); // Skip JWT check for login
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
@@ -31,6 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //            get jwt from token
 //            validate token
 //            if valid -> get user details
+//              get user name -> load user> set the auth context
             String jwtToken = jwtTokenProvider.getJwtFromHeader(request);
 
             if (jwtToken != null && jwtTokenProvider.validateToken(jwtToken)) {
@@ -44,7 +51,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
 
-//              get user name -> load user> set the auth context
 
         }
         catch (Exception e){

@@ -1,6 +1,7 @@
 package com.project.urlshortner.controllers;
 
-import com.project.urlshortner.dtos.RegisterUser;
+import com.project.urlshortner.dtos.LoginRequest;
+import com.project.urlshortner.dtos.RegisterRequest;
 import com.project.urlshortner.models.User;
 import com.project.urlshortner.service.UserService;
 import lombok.AllArgsConstructor;
@@ -19,14 +20,18 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/public/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterUser registerUser){
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest){
         User user = new User();
-        user.setUsername(registerUser.getUsername());
-        user.setPassword(registerUser.getPassword());
-        user.setEmail(registerUser.getEmail());
+        user.setUsername(registerRequest.getUsername());
+        user.setPassword(registerRequest.getPassword());
+        user.setEmail(registerRequest.getEmail());
         user.setRole("ROLE_USER");
 
         userService.registerUser(user);
         return ResponseEntity.ok("User registered successfully");
+    }
+    @PostMapping("/public/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest){
+        return ResponseEntity.ok(userService.authenticateUser(loginRequest));
     }
 }
