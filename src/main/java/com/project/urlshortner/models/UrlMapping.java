@@ -16,6 +16,7 @@ public class UrlMapping
     private String originalUrl;
     private String shortUrl;
     private LocalDateTime createdAt;
+    private int clickCount;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
