@@ -1,6 +1,5 @@
 package com.project.urlshortner.dtos;
 
-import com.project.urlshortner.models.User;
 import lombok.Data;
 
 import java.time.LocalDateTime;
