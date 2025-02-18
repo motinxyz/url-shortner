@@ -2,7 +2,6 @@ package com.project.urlshortner.controllers;
 
 import com.project.urlshortner.dtos.ClickEventDTO;
 import com.project.urlshortner.dtos.UrlMappingDTO;
-import com.project.urlshortner.models.UrlMapping;
 import com.project.urlshortner.models.User;
 import com.project.urlshortner.service.UrlMappingService;
 import com.project.urlshortner.service.UserService;
