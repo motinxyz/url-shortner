@@ -2,6 +2,7 @@ package com.project.urlshortner.controllers;
 
 import com.project.urlshortner.dtos.ClickEventDTO;
 import com.project.urlshortner.dtos.UrlMappingDTO;
+import com.project.urlshortner.models.UrlMapping;
 import com.project.urlshortner.models.User;
 import com.project.urlshortner.service.UrlMappingService;
 import com.project.urlshortner.service.UserService;
@@ -65,6 +66,11 @@ public class UrlMappingController {
     public ResponseEntity<Map<LocalDate, Long>> getTotalClicksbyDate(Principal principal,
                                                                      @RequestParam("startDate") String startDate,
                                                                      @RequestParam("endDate") String endDate){
-        return null;
+       DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+       User user = userService.findByUsername(principal.getName());
+       LocalDate start = LocalDate.parse(startDate, formatter);
+        LocalDate end = LocalDate.parse(endDate, formatter);
+       Map<LocalDate, Long> totalClicks = urlMappingService.getTotalClicksByUserAndDate(user, start, end);
+       return ResponseEntity.ok(totalClicks);
     }
 }

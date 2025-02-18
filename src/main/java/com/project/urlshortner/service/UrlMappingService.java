@@ -2,14 +2,17 @@ package com.project.urlshortner.service;
 
 import com.project.urlshortner.dtos.ClickEventDTO;
 import com.project.urlshortner.dtos.UrlMappingDTO;
+import com.project.urlshortner.models.ClickEvent;
 import com.project.urlshortner.models.UrlMapping;
 import com.project.urlshortner.models.User;
 import com.project.urlshortner.repositories.ClickEventRepository;
 import com.project.urlshortner.repositories.UrlMappingRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -80,5 +83,33 @@ public class UrlMappingService {
                     .collect(Collectors.toList());
         }
         return null;
+    }
+
+    public Map<LocalDate, Long> getTotalClicksByUserAndDate(User user, LocalDate start, LocalDate end) {
+        List<UrlMapping> urlMappings = urlMappingRepository.findByUser(user);
+        List<ClickEvent> clickEvents = clickEventRepository.findByUrlMappingInAndClickDateBetween(urlMappings, start.atStartOfDay(), end.plusDays(1).atStartOfDay());
+
+        return clickEvents.stream()
+                .collect(
+                        Collectors.groupingBy(
+                                click -> click.getClickDate().toLocalDate(),
+                                Collectors.counting()));
+
+    }
+
+    public UrlMapping getOriginalurl(String shortUrl) {
+        UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+
+        if(urlMapping != null){
+            urlMapping.setClickCount(urlMapping.getClickCount() + 1);
+            urlMappingRepository.save(urlMapping);
+
+//            record the click event
+            ClickEvent clickEvent = new ClickEvent();
+            clickEvent.setUrlMapping(urlMapping);
+            clickEvent.setClickDate(LocalDateTime.now());
+            clickEventRepository.save(clickEvent);
+        }
+        return urlMapping;
     }
 }
