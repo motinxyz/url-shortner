@@ -15,7 +15,7 @@ public class UrlMapping
     private Long id;
     private String originalUrl;
     private String shortUrl;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdDate;
     private int clickCount;
 
     @ManyToOne

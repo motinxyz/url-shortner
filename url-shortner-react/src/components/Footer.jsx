@@ -14,7 +14,7 @@ const Footer = () => {
           &copy; 2025 Url Shortner. All rights reserved.
         </p>
 
-        <div className="flex space-x-6 mt-4 lg:mt-0">
+        <div className=" flex space-x-6 mt-4 lg:mt-0">
           <a href="#" className="hover:text-gray-200">
             <FaFacebook size={24} />
           </a>

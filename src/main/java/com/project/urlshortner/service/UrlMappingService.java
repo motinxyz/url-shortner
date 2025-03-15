@@ -30,7 +30,7 @@ public class UrlMappingService {
         urlMapping.setOriginalUrl(originalUrl);
         urlMapping.setShortUrl(shortUrl);
         urlMapping.setUser(user);
-        urlMapping.setCreatedAt(LocalDateTime.now());
+        urlMapping.setCreatedDate(LocalDateTime.now());
 
         UrlMapping savedUrlMapping = urlMappingRepository.save(urlMapping);
 
@@ -43,7 +43,7 @@ public class UrlMappingService {
         urlMappingDTO.setOriginalUrl(urlMapping.getOriginalUrl());
         urlMappingDTO.setShortUrl(urlMapping.getShortUrl());
         urlMappingDTO.setClickCount(urlMapping.getClickCount());
-        urlMappingDTO.setCreatedAt(urlMapping.getCreatedAt());
+        urlMappingDTO.setCreatedDate(urlMapping.getCreatedDate());
         urlMappingDTO.setUsername(urlMapping.getUser().getUsername());
 
         return urlMappingDTO;
@@ -76,7 +76,7 @@ public class UrlMappingService {
                     .entrySet().stream()
                     .map(entry ->{
                         ClickEventDTO clickEventDTO = new ClickEventDTO();
-                        clickEventDTO.setCreatedDate(entry.getKey());
+                        clickEventDTO.setClickDate(entry.getKey());
                         clickEventDTO.setCount(entry.getValue());
                         return clickEventDTO;
                     })
@@ -97,7 +97,7 @@ public class UrlMappingService {
 
     }
 
-    public UrlMapping getOriginalurl(String shortUrl) {
+    public UrlMapping getOriginalUrl(String shortUrl) {
         UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
 
         if(urlMapping != null){
